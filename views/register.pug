@@ -1,0 +1,20 @@
+extends default
+block content
+        h2="Rekisteröidy"
+
+        form(action='/register', method='post')
+            .container
+                label(for='uname') Kirjoita haluamasi käyttäjätunnus:
+            .container
+                input(type='text', placeholder='Anna käyttäjätunnus', name='uname', required='')
+                if usernametaken
+                    em käyttäjätunnus on varattu
+            .container    
+                label(for='psw') Kirjoita haluamasi salasana:
+            .container
+                input(type='password', placeholder='Anna salasana', name='psw', required='')
+            .container(style='background-color:#f1f1f1')
+                button(type='submit') Rekisteröidy
+                label
+
+      

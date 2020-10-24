@@ -1,0 +1,18 @@
+extends default
+block content
+        h2="Kirjaudu"
+
+        form(action='/login', method='post')
+            .container
+                label(for='uname') Anna käyttäjätunnus:
+            .container
+                input#uname(type='text', placeholder='Anna käyttäjätunnus', name='uname', required='')
+            .container    
+                label(for='psw') Anna salasana:
+            .container
+                input(type='password', placeholder='Anna salasana', name='psw', required='')
+            .container(style='background-color:#f1f1f1')
+                button(type='submit') Kirjaudu
+                label
+block login
+    a.login(href='/register') Rekisteröidy

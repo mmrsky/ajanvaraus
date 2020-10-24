@@ -1,0 +1,14 @@
+extends default
+block content
+
+    h2='Valitse palvelu'
+
+    ul.serviceList
+        each service in data.services
+            li service.name
+                form(action='/select-service',method='post')
+                    input(type='hidden' name='service_id' value=service.id)
+                    button.close(type='submit') Valitse
+
+
+block login

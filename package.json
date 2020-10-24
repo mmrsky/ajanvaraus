@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "start": "node app.js",
     "start-dev": "nodemon app.js"
   },
@@ -20,10 +20,16 @@
   "homepage": "https://github.com/mmrsky/ajanvaraus#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "config": "^3.3.2",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "mongoose": "^5.10.7",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "pug": "^3.0.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^8.2.0"
+  }
 }

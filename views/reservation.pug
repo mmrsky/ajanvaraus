@@ -1,0 +1,17 @@
+extends default
+block content
+
+    h2=data.user_name+'Varaus'
+
+    form(action='/reservation', method='post')
+            .reservationcontainer
+                input(type='text', placeholder='Varauksen nimi', name='reservation', required='')
+                button(type='submit') Lisää
+                label
+    
+                input(type='text', placeholder='Varauksen nimi', name='reservation', required='')
+                input(type='date', placeholder='Päivä', name='reservationDay', required='')
+                input(type='time', placeholder='Aika', name='reservationTime', required='')
+
+block login
+    a(href='/logout') Kirjaudu ulos

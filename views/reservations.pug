@@ -1,0 +1,22 @@
+extends default
+block content
+
+    h2=data.user_name+'n varaukset'
+
+    form(action='/add-reservation', method='post')
+            .reservationcontainer
+
+                button(type='submit') Lisää varaus
+                label
+    
+    ul.reservationList
+        each reservation in data.reservations
+            li(class=reservation.complete? 'checked':'')=reservation.text
+                form(action='/delete-reservation',method='post')
+                    input(type='hidden' name='reservation_id' value=reservation.id)
+                    button.close(type='submit') Poista
+
+
+block login
+    a(href='/logout') Kirjaudu ulos
+
