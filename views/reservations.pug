@@ -11,8 +11,8 @@ block content
     
     ul.reservationList
         each reservation in data.reservations
-            li(class=reservation.complete? 'checked':'')=reservation.text
-                form(action='/delete-reservation',method='post')
+            li reservation.text
+                form(action='/post_delete_reservation',method='post')
                     input(type='hidden' name='reservation_id' value=reservation.id)
                     button.close(type='submit') Poista
 

@@ -1,6 +1,7 @@
 // Ajanvaraus sovellus
 // Web-palvelu ja tietokantarajapinnat
 // Author: Mika Mörsky OHSU19
+
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
@@ -10,12 +11,12 @@ const PORT = process.env.PORT || 8080;
 
 // Controllers
 const reservationController = require('./controllers/reservation_controller');
-const authController = require('./controllers/auth_controller');
 const { render } = require('pug');
-const { db } = require('./models/user-model');
+//const authController = require('./controllers/auth_controller');
+//const { db } = require('./models/user-model');
 
-//process.env["NODE_CONFIG_DIR"] = __dirname + "config";
-const config = require('config'); //we load the db location from the JSON files
+// Database location saved in config json files. Different database for testing
+const config = require('config'); 
 
 // Initialise express application
 let app = express();
@@ -29,15 +30,16 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: 'application/json'}));
 
-app.use(session({
-    secret: 'ökljölkj',
-    resave: true,
-    saveUninitialized: true,
-    cookie: {
-        maxAge: 1000000
-    }
-}));
+// app.use(session({
+//     secret: 'ö4käljlkdj43i',
+//     resave: true,
+//     saveUninitialized: true,
+//     cookie: {
+//         maxAge: 1000000
+//     }
+// }));
 
+// Logging methods
 app.use((req, res, next) => {
     console.log(`${req.method} ${req.path}`);
     next();
@@ -46,40 +48,44 @@ app.use((req, res, next) => {
 //Serve Static files
 app.use(express.static(__dirname + '/public'));
 
-const isLoggedHandler = (req, res, next) => {
-    if (!req.session.user) {
-        return res.redirect('/login');
-    }
-    next();
-}; 
+// const isLoggedHandler = (req, res, next) => {
+//     if (!req.session.user) {
+//         return res.redirect('/login');
+//     }
+//     next();
+// }; 
 
+// Authorization routes
+// app.use(authController.handleUser);
 
-// Authorization 
-app.use(authController.handleUser);
-
-app.get('/login', authController.getLogin);
-app.post('/login', authController.postLogin);
-app.get('/logout', authController.postLogout);
-app.get('/register', authController.getRegister);
-app.post('/register', authController.postRegister);
+// app.get('/login', authController.getLogin);
+// app.post('/login', authController.postLogin);
+// app.get('/logout', authController.postLogout);
+// app.get('/register', authController.getRegister);
+// app.post('/register', authController.postRegister);
  
-// Reservations
-// app.get('/reservations', isLoggedHandler, reservationController.getReservations);       // GET /reservations - palautetaan kaikki varaukset
-// app.post('/add-reservation', isLoggedHandler, reservationController.postReservation);       // POST /reservation - uuden varauksen lisääminen
-// app.post('/update-reservation', isLoggedHandler, reservationController.putReservation);     // PUT /reservation/:id - olemassa olevan varauksen päivittäminen
-// app.post('/delete-reservation', isLoggedHandler, reservationController.deleteReservation);   // DELETE /reservation/:id - varauksen poistaminen (tietoa ei tarvitse oikeasti poistaa tietokannasta) Kaikissa edessä palvelun juuri: http://service_root_url/reservations/...
+// Reservation routes
+// app.get('/reservations', isLoggedHandler, reservationController.getReservations);           // GET /reservations - palautetaan kaikki varaukset
+// app.get('/reservations?search_criteria', isLoggedHandler, reservationController.searchReservations);         // GET /reservations?search_criteria - haetaan varauksia jollakin hakukriteerillä (palvelun nimillä, ajankohdalla jne.)
+// app.post('/reservation', isLoggedHandler, reservationController.postReservation);       // POST /reservation - uuden varauksen lisääminen
+// app.put('/reservation/:id', isLoggedHandler, reservationController.putReservation);        // PUT /reservation/:id - olemassa olevan varauksen päivittäminen
+// app.patch('/reservation/:id', isLoggedHandler, reservationController.patchReservation);     // PATCH /reservation/:id - olemassa olevan varauksen osittainen päivittäminen (esim. varauksen ajan muuttaminen)
+// app.delete('/reservation/:id', isLoggedHandler, reservationController.deleteReservation);   //DELETE /reservation/:id - varauksen poistaminen (tietoa ei tarvitse oikeasti poistaa tietokannasta)
 
-//app.get('/reservations?search_criteria', isLoggedHandler, reservationController.x);     // GET /reservations?search_criteria - haetaan varauksia jollakin hakukriteerillä (palvelun nimillä, ajankohdalla jne.)
-//app.patch('/reservation', isLoggedHandler, reservationController.patchReservation); // PATCH /reservation/:id - olemassa olevan varauksen osittainen päivittäminen (esim. varauksen ajan muuttaminen)
+app.get('/reservations?search_criteria', reservationController.searchReservations);         // GET /reservations?search_criteria - haetaan varauksia jollakin hakukriteerillä (palvelun nimillä, ajankohdalla jne.)
+app.get('/reservations', reservationController.getReservations);           // GET /reservations - palautetaan kaikki varaukset
+app.post('/reservation',  reservationController.postReservation);       // POST /reservation - uuden varauksen lisääminen
+app.put('/reservation/:id', reservationController.putReservation);        // PUT /reservation/:id - olemassa olevan varauksen päivittäminen
+app.patch('/reservation/:id', reservationController.patchReservation);     // PATCH /reservation/:id - olemassa olevan varauksen osittainen päivittäminen (esim. varauksen ajan muuttaminen)
+app.delete('/reservation/:id', reservationController.deleteReservation);   //DELETE /reservation/:id - varauksen poistaminen (tietoa ei tarvitse oikeasti poistaa tietokannasta)
+
 
 app.use((req, res, next) => {
     res.status(404);
     res.send(`page not found`);
 });
 
-//const mongoose_url = 'mongodb+srv://mmadmin:7BLFo7s7tpLidLPJ@cluster0-2vmd2.mongodb.net/test?retryWrites=true&w=majority';
-//const mongoose_url = 'mongodb://127.0.0.1:27017/ajanvaraus';
-
+// Connect to database
 mongoose.connect(config.DBHost, {
     useUnifiedTopology: true,
     useNewUrlParser: true

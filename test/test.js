@@ -1,24 +1,20 @@
 //During the test the env variable is set to test
 process.env.NODE_ENV = 'test';
 
-let mongoose = require("mongoose");
-let Book = require('../app/models/book');
+const mongoose = require("mongoose");
+const userModel = require('../models/reservation-model');
+
 
 //Require the dev-dependencies
-let chai = require('chai');
-let chaiHttp = require('chai-http');
-let server = require('../server');
-let should = chai.should();
-
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const server = require('../server');
+const should = chai.should();
 
 chai.use(chaiHttp);
 //Our parent block
 
-// Testataan kirjautuminen
-
-
-
-
+// Testataan ... todo
 var assert = require('assert');
 describe('Array', function() {
   describe('#indexOf()', function() {
