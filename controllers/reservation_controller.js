@@ -17,7 +17,6 @@ const getReservations = (req, res, next) => {
     });
 };
 
-
 /////////////////////////////////////////////////////////
 // Update reservation
 /////////////////////////////////////////////////////////
@@ -77,7 +76,6 @@ const deleteReservation = (req, res, next) => {
 };
 
 module.exports.getReservations = getReservations;
-module.exports.searchReservations = searchReservations;
 module.exports.postReservation = postReservation;
 module.exports.putReservation = putReservation;
 module.exports.patchReservation = patchReservation;
