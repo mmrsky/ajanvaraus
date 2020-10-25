@@ -72,7 +72,6 @@ app.use(express.static(__dirname + '/public'));
 // app.patch('/reservation/:id', isLoggedHandler, reservationController.patchReservation);     // PATCH /reservation/:id - olemassa olevan varauksen osittainen päivittäminen (esim. varauksen ajan muuttaminen)
 // app.delete('/reservation/:id', isLoggedHandler, reservationController.deleteReservation);   //DELETE /reservation/:id - varauksen poistaminen (tietoa ei tarvitse oikeasti poistaa tietokannasta)
 
-app.get('/reservations?search_criteria', reservationController.searchReservations);         // GET /reservations?search_criteria - haetaan varauksia jollakin hakukriteerillä (palvelun nimillä, ajankohdalla jne.)
 app.get('/reservations', reservationController.getReservations);           // GET /reservations - palautetaan kaikki varaukset
 app.post('/reservation',  reservationController.postReservation);       // POST /reservation - uuden varauksen lisääminen
 app.put('/reservation/:id', reservationController.putReservation);        // PUT /reservation/:id - olemassa olevan varauksen päivittäminen

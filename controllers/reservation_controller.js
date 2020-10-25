@@ -6,23 +6,17 @@ const { response } = require('express');
 const reservationModel = require('../models/reservation-model');
 
 /////////////////////////////////////////////////////////
-// Get list of reservation items
+// Get list of reservation items 
 /////////////////////////////////////////////////////////
 const getReservations = (req, res, next) => {
-    reservationModel.find({}, (err, reservations) => {
-        console.log(reservations);
+    
+    let query = req.query;
+    reservationModel.find(query, (err, reservations) => {
         res.send(reservations);
+        //res.render(reservations);
     });
 };
 
-/////////////////////////////////////////////////////////
-// Get reservations by search criteria
-/////////////////////////////////////////////////////////
-const searchReservations = (req, res, next) => {
-    //const searchCriteria = req.parameters.
-    console.log(req.body);
-    console.log(req.params);
-};
 
 /////////////////////////////////////////////////////////
 // Update reservation
@@ -59,7 +53,6 @@ const postReservation = (req, res, next) => {
 // Patch reservation
 /////////////////////////////////////////////////////////
 const patchReservation = (req, res, next) => {
-
     reservationModel.findByIdAndUpdate(req.params.id, req.body, {new: true}).then((err, reservation) => {
         res.send(reservation);
     }).catch((err) => {
