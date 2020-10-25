@@ -8,6 +8,7 @@ const reservationSchema = new Schema({
     endTime: { type: Date, default: Date.now },
     service: { type: String, req: true },
     customer: { type: String, req: true }
+// TODO: omat collectionit palveluille ja asiakkaille.
 //    customer_id: { type: Schema.Types.ObjectId, ref: 'customer', required: true },
 //    service_id: { type: mongoose.Schema.Types.ObjectId, ref: 'service', req: true }
 });

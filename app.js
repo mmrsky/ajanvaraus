@@ -48,6 +48,7 @@ app.use((req, res, next) => {
 //Serve Static files
 app.use(express.static(__dirname + '/public'));
 
+// TODO autentikointi ja kirjautuminen käyttöön
 // const isLoggedHandler = (req, res, next) => {
 //     if (!req.session.user) {
 //         return res.redirect('/login');

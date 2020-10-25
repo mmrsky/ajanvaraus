@@ -13,6 +13,7 @@ const getReservations = (req, res, next) => {
     let query = req.query;
     reservationModel.find(query, (err, reservations) => {
         res.send(reservations);
+        // TODO - käyttöliittymä
         //res.render(reservations);
     });
 };
@@ -34,13 +35,15 @@ const putReservation = (req, res, next) => {
 // Add new reservation item 
 /////////////////////////////////////////////////////////
 const postReservation = (req, res, next) => {
+
+    // TODO tarkistus että haluttu aika on vapaa - oma funktio sille, mitä voi käyttää, myös PUT/PATCH tapauksissa
     const newReservation = reservationModel({
         startTime: req.body.startTime,
         endTime: req.body.endTime,
         service: req.body.service,
         customer: req.body.customer
     }); 
- 
+
     newReservation.save().then(() => {
         res.status(200);
         res.send(newReservation)
@@ -52,6 +55,10 @@ const postReservation = (req, res, next) => {
 // Patch reservation
 /////////////////////////////////////////////////////////
 const patchReservation = (req, res, next) => {
+    
+    // Tämä pitäisi toteuttaa niin että aikaa muuttaessa ensin haetaan find:lla ja sen jälkeen tarkistetaan 
+    // mahdolliset ajan päällekkäisyydet ja palautetaan virhe jos kyseiselle palvelulle ei ole vapaata aikaa
+    // ko. ajankohtana
     reservationModel.findByIdAndUpdate(req.params.id, req.body, {new: true}).then((err, reservation) => {
         res.send(reservation);
     }).catch((err) => {
